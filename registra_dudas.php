@@ -1,10 +1,7 @@
 <?php
-// v2_validaciones_basicas
 
-// Carpeta y archivo donde se guardarán los datos
 $archivo = "data/dudas.csv";
 
-// Recoger los datos del formulario
 $correo = trim($_POST['correo']);
 $modulo = $_POST['modulo'];
 $asunto = trim($_POST['asunto']);
@@ -12,7 +9,6 @@ $descripcion = trim($_POST['descripcion']);
 
 $errores = [];
 
-// Validaciones
 if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
     $errores[] = "El correo electrónico no tiene un formato válido.";
 }
@@ -25,7 +21,6 @@ if (strlen($descripcion) > 300 || empty($descripcion)) {
     $errores[] = "La descripción no puede superar los 300 caracteres.";
 }
 
-// Si hay errores, mostrar HTML con lista de errores
 if (!empty($errores)) {
     echo "<!DOCTYPE html>
     <html lang='es'>
@@ -46,11 +41,9 @@ if (!empty($errores)) {
     exit;
 }
 
-// Si todo es correcto, guardar en CSV
 $linea = "\"$correo\";\"$modulo\";\"$asunto\";\"$descripcion\"\n";
 file_put_contents($archivo, $linea, FILE_APPEND);
 
-// Mostrar confirmación
 echo "<!DOCTYPE html>
 <html lang='es'>
 <head>
