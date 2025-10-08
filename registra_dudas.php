@@ -9,19 +9,34 @@ $descripcion = trim($_POST['descripcion']);
 
 $errores = [];
 
-if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
-    $errores[] = "El correo electrónico no tiene un formato válido.";
+function validar_correo($correo) {
+    global $errores; 
+    if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+        $errores[] = "El correo electrónico no es válido.";
+        return false;
+    }
+    return true;
 }
 
-if (strlen($asunto) > 50 || is_numeric($asunto) || empty($asunto)) {
-    $errores[] = "El asunto debe tener menos de 50 caracteres y no ser numérico.";
+function validar_asunto($asunto) {
+    global $errores; 
+    if (strlen($asunto) > 50 || is_numeric($asunto) || empty($asunto)) {
+        $errores[] = "El asunto no es válidoo. Debe tener menos de 50 caracteres y no ser numérico.";
+        return false;
+    }
+    return true;
 }
 
-if (strlen($descripcion) > 300 || empty($descripcion)) {
-    $errores[] = "La descripción no puede superar los 300 caracteres.";
+function validar_descripcion($descripcion) {
+    global $errores;
+    if (strlen($descripcion) > 300 || empty($descripcion)) {
+        $errores[] = "La descripción no es válida. Debe tener menos de 300 caracteres.";
+        return false;
+    }
+    return true;
 }
 
-if (!empty($errores)) {
+if (!validar_correo($correo) || !validar_asunto($asunto) || !validar_descripcion($descripcion)) {
     echo "<!DOCTYPE html>
     <html lang='es'>
     <head>
