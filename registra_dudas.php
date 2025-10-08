@@ -6,8 +6,9 @@ $correo = trim($_POST['correo']);
 $modulo = $_POST['modulo'];
 $asunto = trim($_POST['asunto']);
 $descripcion = trim($_POST['descripcion']);
-
+$temasTotal = isset($_POST['temas']) ? $_POST['temas'] : []; 
 $errores = [];
+// VERIFICAR QUE temasTotal TIENE VALORES SELECCIONADOS
 
 function validar_correo($correo) {
     global $errores; 

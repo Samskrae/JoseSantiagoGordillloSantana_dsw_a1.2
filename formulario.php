@@ -28,6 +28,18 @@
         <label for="descripcion">Descripción:</label><br>
         <textarea name="descripcion" id="descripcion" rows="5" required></textarea><br><br>
 
+        <label for="checkbox">Temas Relacionados:</label> <br>
+        <input type="checkbox" name="tema" id="tema" value="Linux">Linux <br>
+        <input type="checkbox" name="tema" id="tema" value="Windows">Windows <br>
+        <input type="checkbox" name="tema" id="tema" value="PHP">PHP <br>
+        <input type="checkbox" name="tema" id="tema" value="HTML">HTML <br>
+        <input type="checkbox" name="tema" id="tema" value="JavaScript">JavaScript <br>
+        <input type="checkbox" name="tema" id="tema" value="Bash">Bash <br>
+        <input type="checkbox" name="tema" id="tema" value="Calificaciones">Calificaciones <br>
+        <input type="checkbox" name="tema" id="tema" value="Actividades">Actividades <br>
+        <input type="checkbox" name="tema" id="tema" value="Examenes">Exámenes <br>
+        <input type="checkbox" name="tema" id="tema" value="Otros">Otros <br><br>   
+
         <input type="submit" value="Enviar">
     </form>
 </body>
