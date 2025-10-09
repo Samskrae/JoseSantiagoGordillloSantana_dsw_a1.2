@@ -2,42 +2,31 @@
 
 $archivo = "data/dudas.csv";
 
-$correo = trim($_POST['correo']);
-$modulo = $_POST['modulo'];
-$asunto = trim($_POST['asunto']);
-$descripcion = trim($_POST['descripcion']);
-$temasTotal = isset($_POST['temas']) ? $_POST['temas'] : []; 
+$correo = trim($_POST['correo'] ?? '');
+$modulo = $_POST['modulo'] ?? '';
+$asunto = trim($_POST['asunto'] ?? '');
+$descripcion = trim($_POST['descripcion'] ?? '');
+$temasTotal = $_POST['temas'] ?? [];
+
 $errores = [];
-// VERIFICAR QUE temasTotal TIENE VALORES SELECCIONADOS
 
-function validar_correo($correo) {
-    global $errores; 
-    if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
-        $errores[] = "El correo electrónico no es válido.";
-        return false;
-    }
-    return true;
+if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+    $errores[] = "El correo electrónico no es válido.";
 }
 
-function validar_asunto($asunto) {
-    global $errores; 
-    if (strlen($asunto) > 50 || is_numeric($asunto) || empty($asunto)) {
-        $errores[] = "El asunto no es válidoo. Debe tener menos de 50 caracteres y no ser numérico.";
-        return false;
-    }
-    return true;
+if (strlen($asunto) > 50 || is_numeric($asunto) || empty($asunto)) {
+    $errores[] = "El asunto no es válido. Debe tener menos de 50 caracteres y no ser numérico.";
 }
 
-function validar_descripcion($descripcion) {
-    global $errores;
-    if (strlen($descripcion) > 300 || empty($descripcion)) {
-        $errores[] = "La descripción no es válida. Debe tener menos de 300 caracteres.";
-        return false;
-    }
-    return true;
+if (strlen($descripcion) > 300 || empty($descripcion)) {
+    $errores[] = "La descripción no es válida. Debe tener menos de 300 caracteres.";
 }
 
-if (!validar_correo($correo) || !validar_asunto($asunto) || !validar_descripcion($descripcion)) {
+if (count($temasTotal) < 1 || count($temasTotal) > 3) {
+    $errores[] = "Debes seleccionar entre 1 y 3 temas relacionados.";
+}
+
+if (!empty($errores)) {
     echo "<!DOCTYPE html>
     <html lang='es'>
     <head>
@@ -57,7 +46,9 @@ if (!validar_correo($correo) || !validar_asunto($asunto) || !validar_descripcion
     exit;
 }
 
-$linea = "\"$correo\";\"$modulo\";\"$asunto\";\"$descripcion\"\n";
+$temasStr = implode(", ", $temasTotal);
+
+$linea = "\"$correo\";\"$modulo\";\"$asunto\";\"$descripcion\";\"$temasStr\"\n";
 file_put_contents($archivo, $linea, FILE_APPEND);
 
 echo "<!DOCTYPE html>
@@ -68,6 +59,7 @@ echo "<!DOCTYPE html>
 </head>
 <body>
     <h2>Tu duda ha sido registrada correctamente</h2>
+    <p><strong>Temas seleccionados:</strong> $temasStr</p>
     <p><a href='formulario.php'>Enviar otra duda</a></p>
 </body>
 </html>";
